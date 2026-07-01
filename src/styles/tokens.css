@@ -1,0 +1,24 @@
+@theme {
+  /* 배경 & 표면 */
+  --color-app-bg: #fbf6f1; /* 따뜻한 off-white */
+  --color-surface: #ffffff; /* 카드 배경 */
+  --color-border: #ece5de; /* 연한 회색 border */
+
+  /* 텍스트 */
+  --color-ink: #3a3532;
+  --color-ink-muted: #948b83;
+
+  /* 포인트 컬러: 부드러운 핑크 & 라벤더 */
+  --color-accent: #eaa7bb;
+  --color-accent-strong: #df8ca5;
+  --color-accent-soft: #fbebf0;
+  --color-lavender: #b6aee0;
+  --color-lavender-soft: #f0edfa;
+
+  /* 폰트: iOS 기본 시스템 폰트 우선 */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* 아주 약한 shadow */
+  --shadow-soft: 0 1px 2px rgba(58, 53, 50, 0.04), 0 6px 16px rgba(58, 53, 50, 0.06);
+}

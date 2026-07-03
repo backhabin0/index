@@ -1,18 +1,44 @@
-import { useState } from "react";
-import type { Entry } from "../../models/entry";
-import { addMonths } from "../../utils/date";
+import { useMemo, useState } from "react";
+import EntryDetailModal from "../editor/EntryDetailModal";
+import EntryEditorModal from "../editor/EntryEditorModal";
+import { useEntryWorkspace } from "../../hooks/useEntryWorkspace";
+import type { EntryCategory } from "../../models/entry";
+import { addMonths, toDateKey } from "../../utils/date";
 import CalendarHeader from "./CalendarHeader";
 import DayEntryFeed from "./DayEntryFeed";
 import FloatingWriteButton from "./FloatingWriteButton";
 import MonthCalendarGrid from "./MonthCalendarGrid";
-import { SAMPLE_MARKERS } from "./sampleMarkers";
-
-// 실제 기록 저장 기능은 아직 구현하지 않았으므로 항상 빈 배열을 사용한다.
-const NO_ENTRIES: Entry[] = [];
 
 export default function HomeCalendarPage() {
   const [monthDate, setMonthDate] = useState(() => new Date());
   const [selectedDate, setSelectedDate] = useState(() => new Date());
+  const {
+    entries,
+    isLoading,
+    loadError,
+    detailEntry,
+    openDetail,
+    closeDetail,
+    editorState,
+    openCreate,
+    openEdit,
+    closeEditor,
+    handleSaved,
+    handleDelete,
+  } = useEntryWorkspace();
+
+  const markersByDate = useMemo(() => {
+    const merged: Record<string, EntryCategory[]> = {};
+    for (const entry of entries) {
+      const categories = new Set([...(merged[entry.date] ?? []), entry.category]);
+      merged[entry.date] = [...categories];
+    }
+    return merged;
+  }, [entries]);
+
+  const entriesForSelectedDate = entries.filter(
+    (entry) => entry.date === toDateKey(selectedDate),
+  );
 
   return (
     <div className="flex h-full flex-col">
@@ -25,10 +51,33 @@ export default function HomeCalendarPage() {
         monthDate={monthDate}
         selectedDate={selectedDate}
         onSelectDate={setSelectedDate}
-        markersByDate={SAMPLE_MARKERS}
+        markersByDate={markersByDate}
       />
-      <DayEntryFeed selectedDate={selectedDate} entries={NO_ENTRIES} />
-      <FloatingWriteButton />
+      <DayEntryFeed
+        selectedDate={selectedDate}
+        entries={entriesForSelectedDate}
+        isLoading={isLoading}
+        loadError={loadError}
+        onSelectEntry={openDetail}
+      />
+      <FloatingWriteButton onClick={() => openCreate(selectedDate)} />
+      {editorState && (
+        <EntryEditorModal
+          mode={editorState.mode}
+          defaultDate={editorState.date}
+          initialEntry={editorState.initialEntry}
+          onClose={closeEditor}
+          onSaved={handleSaved}
+        />
+      )}
+      {detailEntry && (
+        <EntryDetailModal
+          entry={detailEntry}
+          onClose={closeDetail}
+          onEdit={openEdit}
+          onDelete={handleDelete}
+        />
+      )}
     </div>
   );
 }

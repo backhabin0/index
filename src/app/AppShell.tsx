@@ -10,7 +10,7 @@ export default function AppShell() {
   const [activeTab, setActiveTab] = useState<TabKey>("home");
 
   return (
-    <div className="mx-auto flex h-dvh max-w-md flex-col bg-[var(--color-app-bg)]">
+    <div className="relative mx-auto flex h-dvh max-w-md flex-col overflow-hidden bg-[var(--color-app-bg)]">
       <main className="flex-1 overflow-y-auto pb-[calc(env(safe-area-inset-bottom)+88px)]">
         {activeTab === "home" && <HomeCalendarPage />}
         {activeTab === "search" && <SearchPage />}

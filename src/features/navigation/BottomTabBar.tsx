@@ -7,8 +7,8 @@ interface BottomTabBarProps {
 
 export default function BottomTabBar({ activeTab, onSelectTab }: BottomTabBarProps) {
   return (
-    <nav className="pb-safe fixed inset-x-0 bottom-0 border-t border-[var(--color-border)] bg-[var(--color-surface)]/95 backdrop-blur">
-      <div className="mx-auto flex max-w-md items-stretch justify-around px-2 pt-2">
+    <nav className="pb-safe absolute inset-x-0 bottom-0 border-t border-[var(--color-border)] bg-[var(--color-surface)]/95 backdrop-blur">
+      <div className="flex items-stretch justify-around px-2 pt-2">
         {TAB_ITEMS.map((tab) => {
           const isActive = tab.key === activeTab;
           return (

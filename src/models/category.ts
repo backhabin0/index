@@ -17,3 +17,12 @@ export const CATEGORY_LABELS: Record<EntryCategory, string> = {
   purchase: "내돈내산",
   food: "푸드로그",
 };
+
+export const CATEGORY_ORDER: EntryCategory[] = [
+  "mood",
+  "movie",
+  "book",
+  "travel",
+  "purchase",
+  "food",
+];
